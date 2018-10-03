@@ -17,7 +17,8 @@
     <div class="container">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <p>Logged in as <strong>{{ Auth::user()->name }}</strong> <button type="submit" class="waves-effect waves-light btn">Logout</button>                </p>
+            <h5>Logged in as <strong class="purple-text text-darken-3">{{ Auth::user()->name }}  </strong> <button type="submit"
+                    class="btn-small waves-effect waves-light btn">Logout</button></h5>
         </form>
         @isAdmin
         <ul class="collapsible">

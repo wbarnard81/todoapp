@@ -13,7 +13,10 @@
 
 route::middleware(['auth'])->group(function () {
     Route::get('/', 'ToDoController@index');
-    Route::get('/edit', 'ToDoController@edit')->name('edit');
+    Route::post('/store', 'ToDoController@store')->name('store');
+    Route::get('/edit/{id}', 'ToDoController@edit')->name('edit');
+    Route::post('/update/{id}', 'ToDoController@update')->name('update');
+    Route::get('/delete{id}', 'ToDoController@delete')->name('delete');
 });
 
 Auth::routes();

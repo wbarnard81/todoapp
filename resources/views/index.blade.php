@@ -4,37 +4,25 @@
     <thead>
         <tr>
             <th>Task</th>
+            @isAdmin
             <th>Assigned to</th>
+            @endisAdmin
             <th>Edit</th>
             <th>Delete</th>
         </tr>
     </thead>
 
     <tbody>
+        @foreach($tasks as $task)
         <tr>
-            <td><a href="">Loose weight - 10kg</a></td>
-            <td>Eclair Doe</td>
-            <td><a title="edit" href=""><i class="material-icons">edit</i></a></td>
-            <td><a title="delete" href=""><i class="material-icons">delete_forever</i></a></td>
+            <td><a href="">{{ $task->content }}</a></td>
+            @isAdmin
+            <td>{{ $task->user->name }}</td>
+            @endisAdmin
+            <td><a title="edit" href="{{ route('edit', $task->id) }}"><i class="material-icons">edit</i></a></td>
+            <td><a title="delete" onclick="return confirm('Are you sure you want to delete this task?');" href="{{ route('delete', $task->id) }}"><i class="material-icons">delete_forever</i></a></td>
         </tr>
-        <tr>
-            <td><a href=""><strike>Order 20 bottles of coke.</strike></a></td>
-            <td>Jane Doe</td>
-            <td><a title="edit" href=""><i class="material-icons">edit</i></a></td>
-            <td><a title="delete" href=""><i class="material-icons">delete_forever</i></a></td>
-        </tr>
-        <tr>
-            <td><a href="">Cut the lawn</a></td>
-            <td>John Doe</td>
-            <td><a title="edit" href=""><i class="material-icons">edit</i></a></td>
-            <td><a title="delete" href=""><i class="material-icons">delete_forever</i></a></td>
-        </tr>
-        <tr>
-            <td><a href="">Find a job</a></td>
-            <td>Peter Doe</td>
-            <td><a title="edit" href=""><i class="material-icons">edit</i></a></td>
-            <td><a title="delete" href=""><i class="material-icons">delete_forever</i></a></td>
-        </tr>
+        @endforeach
     </tbody>
 </table>
 <br><br><br>
@@ -55,19 +43,26 @@
             <label for="task">New task</label>
         </div>
     </div>
-    <div class="input-field col s12">
-        <select>
-            <option value="" disabled selected>Assign to:</option>
-            <option value="1">To myself</option>
-            <option value="2">Jane Doe</option>
-            <option value="3">John Doe</option>
-            <option value="4">Peter Doe</option>
-            <option value="5">Johnathan Doe</option>
-        </select>
-        <label>Assign Task</label>
-    </div>
+    @include('partials.coworkers')
     <a class="waves-effect waves-light btn">Add new task</a>
 </form>
+@isWorker
+<br><br><br>
+<form action="" class="col s12">
+    <div class="input-field">
+        <select>
+        <option value="" disabled selected>Send invitation to:</option>
+        <option value="1">To myself</option>
+        <option value="2">Jane Doe</option>
+        <option value="3">John Doe</option>
+        <option value="4">Peter Doe</option>
+        <option value="5">Johnathan Doe</option>
+    </select>
+        <label>Send invitation</label>
+    </div>
+    <a class="waves-effect waves-light btn">Send invitation</a>
+</form>
+@endisWorker @isAdmin
 <br><br><br>
 <ul class="collection with-header">
     <li class="collection-header">
@@ -86,4 +81,5 @@
         <div>Johnathan Doe<a href="#!" class="secondary-content">Delete</a></div>
     </li>
 </ul>
+@endisAdmin
 @endsection

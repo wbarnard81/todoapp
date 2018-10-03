@@ -15,7 +15,11 @@
 <body>
 
     <div class="container">
-        <p>Logged in as <strong>Werner Barnard</strong> <a class="waves-effect waves-light btn">Logout</a> </p>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <p>Logged in as <strong>{{ Auth::user()->name }}</strong> <button type="submit" class="waves-effect waves-light btn">Logout</button>                </p>
+        </form>
+        @isAdmin
         <ul class="collapsible">
             <li>
                 <div class="collapsible-header">
@@ -45,6 +49,7 @@
                 </div>
             </li>
         </ul>
+        @endisAdmin
         <h1 class="center-align blue-text text-darken-4">To-Do List</h1>
 
         @yield('content')

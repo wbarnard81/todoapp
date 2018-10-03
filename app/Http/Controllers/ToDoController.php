@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
+
 class ToDoController extends Controller
 {
     public function index()
     {
-        return view('index');
+        $tasks = Task::all();
+        return view('index', compact('tasks'));
     }
 
     public function edit()

@@ -15,7 +15,7 @@
     <tbody>
         @foreach($tasks as $task)
         <tr>
-            <td><a href="">
+            <td><a href="{{ route('updateStatus', $task->id) }}">
                 @if(!$task->status)
                 {{ $task->content }}
                 @else
@@ -31,17 +31,7 @@
         @endforeach
     </tbody>
 </table>
-<br><br><br>
-<ul class="pagination">
-    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-    <li class="active"><a href="#!">1</a></li>
-    <li class="waves-effect"><a href="#!">2</a></li>
-    <li class="waves-effect"><a href="#!">3</a></li>
-    <li class="waves-effect"><a href="#!">4</a></li>
-    <li class="waves-effect"><a href="#!">5</a></li>
-    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-</ul>
-<br><br><br>
+<br><br><br> {{ $tasks->links('vendor.pagination.materialize') }}
 <form method="POST" action="{{ route('store') }}" class="col s12">
     <div class="row">
         <div class="input-field col s12">
@@ -54,19 +44,17 @@
 </form>
 @isWorker
 <br><br><br>
-<form action="" class="col s12">
+<form method="POST" action="{{ route('sendInvitation') }}" class="col s12">
     <div class="input-field">
-        <select>
+        <select name="admin">
         <option value="" disabled selected>Send invitation to:</option>
-        <option value="1">To myself</option>
-        <option value="2">Jane Doe</option>
-        <option value="3">John Doe</option>
-        <option value="4">Peter Doe</option>
-        <option value="5">Johnathan Doe</option>
+        @foreach($coworkers as $coworker)
+        <option value="{{ $coworker->id }}">{{ $coworker->name }}</option>
+        @endforeach
     </select>
         <label>Send invitation</label>
     </div>
-    <a class="waves-effect waves-light btn">Send invitation</a>
+    <button type="submit" class="waves-effect waves-light btn">Send invitation</button> @csrf
 </form>
 @endisWorker @isAdmin
 <br><br><br>
@@ -74,18 +62,11 @@
     <li class="collection-header">
         <h4>My Coworkers</h4>
     </li>
+    @foreach($coworkers as $coworker)
     <li class="collection-item">
-        <div>John Doe<a href="#!" class="secondary-content">Delete</a></div>
+        <div>{{ $coworker->worker->name }}<a href="{{ route('deleteWorker', $coworker->id) }}" class="secondary-content">Delete</a></div>
     </li>
-    <li class="collection-item">
-        <div>Jane Doe<a href="#!" class="secondary-content">Delete</a></div>
-    </li>
-    <li class="collection-item">
-        <div>Peter Doe<a href="#!" class="secondary-content">Delete</a></div>
-    </li>
-    <li class="collection-item">
-        <div>Johnathan Doe<a href="#!" class="secondary-content">Delete</a></div>
-    </li>
+    @endforeach
 </ul>
 @endisAdmin
 @endsection

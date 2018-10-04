@@ -20,37 +20,24 @@
             <h5>Logged in as <strong class="purple-text text-darken-3">{{ Auth::user()->name }}  </strong> <button type="submit"
                     class="btn-small waves-effect waves-light btn">Logout</button></h5>
         </form>
-        @isAdmin
+        @isAdmin @if($invitations->count()>0)
         <ul class="collapsible">
             <li>
                 <div class="collapsible-header">
                     <i class="material-icons">person_add</i> Invitations
-                    <span class="new badge red">4</span></div>
+                    <span class="new badge red">{{ $invitations->count() }}</span></div>
                 <div class="collapsible-body">
+                    @foreach($invitations as $invitation)
                     <p>
                         <span class="red-text">
-                            <strong>John Doe <a href="">Accept</a> | <a href="">Deny</a> </strong>
+                            <strong>{{ $invitation->worker->name }} <a href="{{ route('acceptInvitation', ['id'=>$invitation->id]) }}">Accept</a> | <a href="{{ route('denyInvitation', ['id'=>$invitation->id]) }}">Deny</a> </strong>
                         </span>
                     </p>
-                    <p>
-                        <span class="red-text">
-                            <strong>Jane Doe <a href="">Accept</a> | <a href="">Deny</a> </strong>
-                        </span>
-                    </p>
-                    <p>
-                        <span class="red-text">
-                            <strong>Peter Doe <a href="">Accept</a> | <a href="">Deny</a> </strong>
-                        </span>
-                    </p>
-                    <p>
-                        <span class="red-text">
-                            <strong>Johnathan Doe <a href="">Accept</a> | <a href="">Deny</a> </strong>
-                        </span>
-                    </p>
+                    @endforeach
                 </div>
             </li>
         </ul>
-        @endisAdmin
+        @endif @endisAdmin
         <h1 class="center-align blue-text text-darken-4">To-Do List</h1>
 
         @yield('content')
